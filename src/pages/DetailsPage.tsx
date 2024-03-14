@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "../components/Shimmer";
+import DetailsTable from "../components/DetailsTable";
 
 const DetailsPage = () => {
-  const [pairData, setPairData] = useState<{ [key: string]: number } | null>(
-    null
-  );
+  // Todo: update types
+  const [pairData, setPairData] = useState<any[] | null>();
   const [loading, setLoading] = useState(true);
-  const { currency } = useParams();
+  const { currency = "usd" } = useParams();
+
+  // Todo: update types
+  const getFormattedData = (data: any, currency: string) => {
+    return [
+      { label: "Price", value: currency },
+      {
+        label: "Market Cap",
+        value: data?.[`${currency}_market_cap`].toFixed(2),
+      },
+      {
+        label: "Volume(24hrs)",
+        value: data?.[`${currency}_24h_vol`].toFixed(2),
+      },
+      {
+        label: "Change(24hrs)",
+        value: data?.[`${currency}_24h_change`].toFixed(2),
+      },
+    ];
+  };
 
   const getPairDetails = async () => {
     setLoading(true);
@@ -21,7 +40,8 @@ const DetailsPage = () => {
       } else {
         const data = await response.json();
         console.log(data);
-        setPairData(data.bitcoin);
+        const formattedData = getFormattedData(data.bitcoin, currency);
+        setPairData(formattedData);
         setTimeout(() => {
           setLoading(false);
         }, 1000);
@@ -43,46 +63,7 @@ const DetailsPage = () => {
         <div className="flex flex-col justify-center">
           <h1>BTC/{currency.toUpperCase()} Details</h1>
           <div>
-            <table className="shadow-lg bg-white">
-              <tbody>
-                <tr>
-                  <td className="border px-8 py-4">Price</td>
-                  <td className="border px-8 py-4">
-                    {loading ? <Shimmer /> : pairData?.[currency]}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border px-8 py-4">Market Cap</td>
-                  <td className="border px-8 py-4">
-                    {loading ? (
-                      <Shimmer />
-                    ) : (
-                      pairData?.[`${currency}_market_cap`].toFixed(2)
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border px-8 py-4">Volume(24hrs)</td>
-                  <td className="border px-8 py-4">
-                    {loading ? (
-                      <Shimmer />
-                    ) : (
-                      pairData?.[`${currency}_24h_vol`].toFixed(2)
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border px-8 py-4">Change(24hrs)</td>
-                  <td className="border px-8 py-4">
-                    {loading ? (
-                      <Shimmer />
-                    ) : (
-                      pairData?.[`${currency}_24h_change`].toFixed(2)
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            {pairData && <DetailsTable data={pairData} loading={loading} />}
           </div>
         </div>
       )}
