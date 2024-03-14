@@ -33,7 +33,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchBitcoinPrices();
+    // fetchBitcoinPrices();
   }, []);
 
   return (
