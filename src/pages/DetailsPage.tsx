@@ -34,12 +34,12 @@ const DetailsPage = () => {
   };
 
   useEffect(() => {
-    // getPairDetails();
-    // const intervalId = setInterval(getPairDetails, PRICE_REFRESH_PERIOD);
-    // return () => {
-    //   clearInterval(intervalId);
-    //   clearTimeout(timeoutId);
-    // };
+    getPairDetails();
+    const intervalId = setInterval(getPairDetails, PRICE_REFRESH_PERIOD);
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (

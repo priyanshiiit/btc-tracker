@@ -30,12 +30,12 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    // fetchBitcoinPriceData();
-    // const intervalId = setInterval(fetchBitcoinPriceData, PRICE_REFRESH_PERIOD);
-    // return () => {
-    //   clearInterval(intervalId);
-    //   clearTimeout(timeoutId);
-    // };
+    fetchBitcoinPriceData();
+    const intervalId = setInterval(fetchBitcoinPriceData, PRICE_REFRESH_PERIOD);
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
