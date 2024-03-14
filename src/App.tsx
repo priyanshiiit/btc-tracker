@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import OverviewPage from "./pages/OverviewPage";
 import HomePage from "./pages/HomePage";
 
-const AppRouter: React.FC = () => {
+const AppRouter = () => {
   return (
     <Router>
       <Routes>
