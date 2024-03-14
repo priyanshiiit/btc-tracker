@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import DetailsTable from "../components/DetailsTable";
 import { getFormattedData } from "../utils";
 import { API_URL, FLASH_PERIOD, PRICE_REFRESH_PERIOD } from "../constants";
-import { FormattedData } from "../types";
+import { FormattedPairData } from "../types";
 
 const DetailsPage = () => {
-  const [pairData, setPairData] = useState<FormattedData[] | null>();
+  const [pairData, setPairData] = useState<FormattedPairData[] | null>();
   const [loading, setLoading] = useState(true);
   const { currency = "usd" } = useParams();
   let timeoutId: NodeJS.Timeout;
@@ -24,6 +24,8 @@ const DetailsPage = () => {
         const data = await response.json();
         const formattedData = getFormattedData(data.bitcoin, currency);
         setPairData(formattedData);
+
+        // Delays loading to false for visual feedback for price update
         timeoutId = setTimeout(() => {
           setLoading(false);
         }, FLASH_PERIOD);
@@ -37,6 +39,7 @@ const DetailsPage = () => {
     getPairDetails();
     const intervalId = setInterval(getPairDetails, PRICE_REFRESH_PERIOD);
     return () => {
+      // clear intervals to prevent memory leak
       clearInterval(intervalId);
       clearTimeout(timeoutId);
     };
@@ -44,22 +47,18 @@ const DetailsPage = () => {
 
   return (
     <div className="flex justify-center mt-20">
-      {currency && (
-        <div className="flex flex-col justify-center">
-          <h1 className="text-4xl font-bold text-center m-10">
-            BTC/{currency.toUpperCase()} Pair Data
-          </h1>
-          <div>
-            {pairData ? (
-              <DetailsTable data={pairData} loading={loading} />
-            ) : (
-              <h1 className="text-2xl font-bold text-center m-10">
-                Loading...
-              </h1>
-            )}
-          </div>
+      <div className="flex flex-col justify-center">
+        <h1 className="text-4xl font-bold text-center m-10">
+          BTC/{currency.toUpperCase()} Pair Data
+        </h1>
+        <div>
+          {pairData ? (
+            <DetailsTable data={pairData} loading={loading} />
+          ) : (
+            <h1 className="text-2xl font-bold text-center m-10">Loading...</h1>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

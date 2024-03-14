@@ -1,19 +1,28 @@
 import React from "react";
 import Shimmer from "./Shimmer";
-import { FormattedData } from "../types";
+import { FormattedPairData } from "../types";
+
+const Row = ({ label, value }: { label: string; value: React.ReactNode }) => {
+  return (
+    <tr>
+      <td className="border px-2 md:px-8 py-4">{label}</td>
+      <td className="border px-2 md:px-8 py-4">{value}</td>
+    </tr>
+  );
+};
 
 const DetailsTable = ({
   data,
   loading,
 }: {
-  data: FormattedData[];
+  data: FormattedPairData[];
   loading: boolean;
 }) => {
   return (
     <div>
       <table className="shadow-lg bg-white">
         <tbody>
-          {data?.map((rowData: FormattedData, index: number) => (
+          {data?.map((rowData: FormattedPairData, index: number) => (
             <Row
               key={index}
               label={rowData.label}
@@ -23,15 +32,6 @@ const DetailsTable = ({
         </tbody>
       </table>
     </div>
-  );
-};
-
-const Row = ({ label, value }: { label: string; value: any }) => {
-  return (
-    <tr>
-      <td className="border px-2 md:px-8 py-4">{label}</td>
-      <td className="border px-2 md:px-8 py-4">{value}</td>
-    </tr>
   );
 };
 

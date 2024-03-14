@@ -9,6 +9,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   let timeoutId: NodeJS.Timeout;
 
+  // Function to fetch bitcoin price in 3 different currencies
   const fetchBitcoinPriceData = async () => {
     setLoading(true);
     try {
@@ -20,6 +21,8 @@ const HomePage = () => {
       } else {
         const data = await response.json();
         setPriceData(data?.bitcoin);
+
+        // Delays loading to false for visual feedback for price update
         timeoutId = setTimeout(() => {
           setLoading(false);
         }, FLASH_PERIOD);
@@ -33,6 +36,7 @@ const HomePage = () => {
     fetchBitcoinPriceData();
     const intervalId = setInterval(fetchBitcoinPriceData, PRICE_REFRESH_PERIOD);
     return () => {
+      // clear intervals to prevent memory leak
       clearInterval(intervalId);
       clearTimeout(timeoutId);
     };
@@ -45,7 +49,7 @@ const HomePage = () => {
       </h1>
       <div className="flex flex-wrap gap-4 justify-center mt-10">
         {priceData ? (
-          Object.entries(priceData).map(([symbol, price], index: any) => {
+          Object.entries(priceData).map(([symbol, price], index: number) => {
             return (
               <PriceCard
                 key={index}

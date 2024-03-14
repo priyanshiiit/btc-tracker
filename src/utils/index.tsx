@@ -1,9 +1,9 @@
-import { FormattedData, PairData } from "../types";
+import { FormattedPairData, PairData } from "../types";
 
 export const getFormattedData = (
   data: PairData,
   currency: string
-): FormattedData[] => {
+): FormattedPairData[] => {
   return [
     {
       label: "Price",
