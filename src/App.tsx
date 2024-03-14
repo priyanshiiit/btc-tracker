@@ -1,13 +1,17 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import OverviewPage from "./pages/OverviewPage";
+import HomePage from "./pages/HomePage";
 
-function App() {
+const AppRouter: React.FC = () => {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/overview/:currency" element={<OverviewPage />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
-export default App;
+export default AppRouter;
