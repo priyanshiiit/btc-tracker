@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
+import { getCurrencySymbol } from "../utils";
 
 type PriceCardProps = {
   symbol: string;
@@ -18,7 +19,9 @@ const PriceCard = ({ symbol, price, loading }: PriceCardProps) => {
           {loading ? (
             <Shimmer />
           ) : (
-            <span className="text-2xl font-bold">{price}</span>
+            <span className="text-2xl font-bold">
+              {getCurrencySymbol(symbol) + price}
+            </span>
           )}
         </div>
       </div>

@@ -53,7 +53,7 @@ const DetailsPage = () => {
               <DetailsTable data={pairData} loading={loading} />
             ) : (
               <h1 className="text-2xl font-bold text-center m-10">
-                Pair data unavailable at the moment...
+                Loading...
               </h1>
             )}
           </div>

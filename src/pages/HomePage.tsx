@@ -53,7 +53,7 @@ const HomePage = () => {
         })
       ) : (
         <h1 className="text-2xl font-bold text-center m-10">
-          Price data unavailable at the moment...
+          Loading...
         </h1>
       )}
     </div>
