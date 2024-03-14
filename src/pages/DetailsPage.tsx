@@ -41,12 +41,13 @@ const DetailsPage = () => {
     //   clearTimeout(timeoutId);
     // };
   }, []);
+
   return (
     <div className="flex justify-center mt-20">
       {currency && (
         <div className="flex flex-col justify-center">
-          <h1 className="text-2xl font-bold text-center m-10">
-            BTC/{currency.toUpperCase()} Details
+          <h1 className="text-4xl font-bold text-center m-10">
+            BTC/{currency.toUpperCase()} Pair Data
           </h1>
           <div>
             {pairData ? (

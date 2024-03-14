@@ -39,23 +39,26 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center mt-10">
-      {priceData ? (
-        Object.entries(priceData).map(([symbol, price], index: any) => {
-          return (
-            <PriceCard
-              key={index}
-              symbol={symbol}
-              price={price}
-              loading={loading}
-            />
-          );
-        })
-      ) : (
-        <h1 className="text-2xl font-bold text-center m-10">
-          Loading...
-        </h1>
-      )}
+    <div className="flex flex-col mt-20">
+      <h1 className="text-4xl font-bold text-center m-10">
+        Multi-Currency Bitcoin Price
+      </h1>
+      <div className="flex flex-wrap gap-4 justify-center mt-10">
+        {priceData ? (
+          Object.entries(priceData).map(([symbol, price], index: any) => {
+            return (
+              <PriceCard
+                key={index}
+                symbol={symbol}
+                price={price}
+                loading={loading}
+              />
+            );
+          })
+        ) : (
+          <h1 className="text-2xl font-bold text-center m-10">Loading...</h1>
+        )}
+      </div>
     </div>
   );
 };
