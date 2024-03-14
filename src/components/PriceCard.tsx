@@ -2,25 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 
-// TODO: rename to Price card
-const PriceCard = ({
-  symbol,
-  price,
-  loading,
-}: {
+type PriceCardProps = {
   symbol: string;
   price: number;
   loading: boolean;
-}) => {
+};
+const PriceCard = ({ symbol, price, loading }: PriceCardProps) => {
   return (
     <Link to={!loading ? `/details/${symbol}` : ""}>
       <div className="bg-white rounded-lg shadow-md p-6 w-64">
-        <div className="flex flex-col">
-          <span className="text-gray-600 font-semibold mb-2">{symbol}</span>
+        <div className="flex flex-col justify-center items-center text-center">
+          <span className="text-gray-600 font-semibold mb-2">
+            {`BTC/${symbol.toUpperCase()}`}
+          </span>
           {loading ? (
             <Shimmer />
           ) : (
-            <span className="text-xl font-bold">{price}</span>
+            <span className="text-2xl font-bold">{price}</span>
           )}
         </div>
       </div>

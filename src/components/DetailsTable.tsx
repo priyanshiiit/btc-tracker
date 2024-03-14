@@ -1,14 +1,19 @@
 import React from "react";
 import Shimmer from "./Shimmer";
+import { FormattedData } from "../types";
 
-// Todo: update types
-const DetailsTable = ({ data, loading }: { data: any; loading: boolean }) => {
+const DetailsTable = ({
+  data,
+  loading,
+}: {
+  data: FormattedData[];
+  loading: boolean;
+}) => {
   return (
     <div>
       <table className="shadow-lg bg-white">
         <tbody>
-          {data?.map((rowData: any, index: number) => (
-            // Todo: update types above
+          {data?.map((rowData: FormattedData, index: number) => (
             <Row
               key={index}
               label={rowData.label}
@@ -24,8 +29,8 @@ const DetailsTable = ({ data, loading }: { data: any; loading: boolean }) => {
 const Row = ({ label, value }: { label: string; value: any }) => {
   return (
     <tr>
-      <td className="border px-8 py-4">{label}</td>
-      <td className="border px-8 py-4">{value}</td>
+      <td className="border px-2 md:px-8 py-4">{label}</td>
+      <td className="border px-2 md:px-8 py-4">{value}</td>
     </tr>
   );
 };

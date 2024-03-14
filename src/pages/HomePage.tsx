@@ -1,43 +1,47 @@
 import React, { useEffect, useState } from "react";
 import PriceCard from "../components/PriceCard";
+import { API_URL, FLASH_PERIOD, PRICE_REFRESH_PERIOD } from "../constants";
 
 const HomePage = () => {
-  const [prices, setPrices] = useState<{ [key: string]: number } | null>(null);
+  const [priceData, setPriceData] = useState<{ [key: string]: number } | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
+  let timeoutId: NodeJS.Timeout;
 
-  const fetchBitcoinPrices = async () => {
+  const fetchBitcoinPriceData = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy,eur"
+        `${API_URL}/simple/price?ids=bitcoin&vs_currencies=usd,jpy,eur`
       );
-
       if (!response.ok) {
         alert("API limit reached");
       } else {
         const data = await response.json();
-        console.log(data);
-
-        setPrices(data.bitcoin);
-        setTimeout(() => {
+        setPriceData(data?.bitcoin);
+        timeoutId = setTimeout(() => {
           setLoading(false);
-        }, 1000);
+        }, FLASH_PERIOD);
       }
     } catch (error) {
-      console.error("Error fetching Bitcoin prices:", error);
+      console.error("Error fetching Bitcoin priceData:", error);
     }
   };
 
   useEffect(() => {
-    // fetchBitcoinPrices();
-    // const intervalId = setInterval(fetchBitcoinPrices, 10000);
-    // return () => clearInterval(intervalId);
+    // fetchBitcoinPriceData();
+    // const intervalId = setInterval(fetchBitcoinPriceData, PRICE_REFRESH_PERIOD);
+    // return () => {
+    //   clearInterval(intervalId);
+    //   clearTimeout(timeoutId);
+    // };
   }, []);
 
   return (
     <div className="flex flex-wrap gap-4 justify-center mt-10">
-      {prices &&
-        Object.entries(prices).map(([symbol, price], index: any) => {
+      {priceData ? (
+        Object.entries(priceData).map(([symbol, price], index: any) => {
           return (
             <PriceCard
               key={index}
@@ -46,7 +50,12 @@ const HomePage = () => {
               loading={loading}
             />
           );
-        })}
+        })
+      ) : (
+        <h1 className="text-2xl font-bold text-center m-10">
+          Price data unavailable at the moment...
+        </h1>
+      )}
     </div>
   );
 };
